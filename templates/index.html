@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud application</title>
+</head>
+<body>
+   <center> <h1 style="background-color: peru;">Crud application</h1></center>
+   <div class="container mt-3">
+    {% for message in messages%}
+    <p class="alert-succes">{{message}}</p>
+    {% endfor %}
+
+    {% if sel_tache %}
+    <form method="POST" action="{% url 'update_tache' sel_tache.id %}">
+        {% csrf_token%}
+    <div class="form-group">
+        <label for="date">Date d'enregistrement</label><br>
+        <input type="date" class="form-control" value="{{sel_tache.date}}" name="date">
+    </div>
+    <div class="form-group">
+        <label for="object">Object</label><br>
+        <input type="text" class="form-control" value="{{sel_tache.object}}" name="object" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label><br>
+        <input type="text" class="form-control" value="{{sel_tache.description}}" name="description" required>
+    </div>
+
+    <button type="submit">Update</button>
+</form>
+    {% else %}
+    <form method="POST" action="{% url 'add_tache' %}">
+        {% csrf_token%}
+      <div class="form-group">
+            <label for="date">Date d'enregistrement</label><br>
+            <input type="date" class="form-control" name="date">
+        </div>
+        <div class="form-group">
+            <label for="object">Object</label><br>
+            <input type="text" class="form-control" name="object" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label><br>
+            <input type="text" class="form-control" name="description" required>
+        </div>
+   
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
+    
+   </div>
+<div class="mt-3">
+    
+
+   <table  class="table table-bordered">
+    <thead>
+        <tr>
+            
+        
+        <th >Date D'enregistrement</th>
+        <th>Object</th>
+        <th>Description</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in tache_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.date}}</td>
+            <td>{{i.object}}</td>
+            <td>{{i.description}}</td>
+         
+            <td><a href="{% url 'edit_tache' i.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_tache' i.id %}" class="btn btn-warning">Delete</a></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+   </table>
+</div>
+
+    
+</body>
+
+</html>
